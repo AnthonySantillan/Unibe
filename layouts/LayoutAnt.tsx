@@ -1,18 +1,19 @@
-import React, { FC, ReactNode, useState } from 'react'
 import {
   DesktopOutlined,
   FileOutlined,
+  HomeOutlined,
   LogoutOutlined,
-  PieChartOutlined,
-  TeamOutlined,
+  ProfileOutlined,
   UserOutlined,
+  WindowsOutlined,
 } from '@ant-design/icons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { destruirToken } from '@/assets/utils'
+import React, { FC, ReactNode, useState } from 'react'
 import { Button, MenuProps, Modal, Space } from 'antd'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
-import ContextoUsuario, { useContextoUsuario } from '@/contexts/User'
+// import ContextoUsuario, { useContextoUsuario } from '@/contexts/User'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -33,19 +34,22 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem(<Link href="/app">home</Link>, '1', <PieChartOutlined />),
-  getItem(<Link href="/app/clientes">Usuarios</Link>, '2', <UserOutlined />),
-  getItem('Inventario', 'sub1', <DesktopOutlined />, [
+  getItem(<Link href="/app">home</Link>, '1', <HomeOutlined />),
+  getItem('Admin', 'sub1', <WindowsOutlined />, [
+    getItem(<Link href="/app/usuarios">Usuarios</Link>, '6'),
+  ]),
+  getItem('Inventario', 'sub2', <DesktopOutlined />, [
     getItem(<Link href="/app/productos">Productos</Link>, '3'),
     getItem(<Link href="/app/bodegas">Bodegas</Link>, '4'),
-    //getItem(<Link href="/app/servicios">Servicios</Link>, '4'),
-    //getItem(<Link href="/app/kardex">Kardex</Link>, '5'),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [
-    getItem('Team 1', '6'),
-    getItem('Team 2', '8'),
+  getItem('Comprobantes', 'sub3', <ProfileOutlined />, [
+    getItem(
+      <Link href="/app/salesNotes">Notas de ventas</Link>,
+      '9',
+      <FileOutlined />
+    ),
   ]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem(<Link href="/app/clientes">Clientes</Link>, '2', <UserOutlined />),
 ]
 
 const LayoutApp: FC<{ children: ReactNode }> = (props) => {
