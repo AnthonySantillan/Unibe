@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CellarsController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SalesNotesController;
+use App\Http\Controllers\SalesNotesProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::apiResource('users',UsersController::class);
+Route::apiResource('address',AddressController::class);
+Route::apiResource('cellars',CellarsController::class);
+Route::apiResource('products',ProductsController::class);
+Route::apiResource('salesNotes',SalesNotesController::class);
+Route::apiResource('salesNotesProducts',SalesNotesProductsController::class);
