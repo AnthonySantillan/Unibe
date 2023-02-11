@@ -21,7 +21,8 @@ const Warehouses: React.FC = () => {
       setusers(warehouses)
     })*/
     const warehouses = [
-      {_id: "1", code: "B1", name:"Bodega Test", dimension:500, address:{sector:"TUMBACO"}}
+      {_id: "1", code: "B1", name:"Bodega Test 1", dimension:500, address:{sector:"TUMBACO"}, key: 0},
+      {_id: "2", code: "B2", name:"Bodega Test 2", dimension:1000, address:{sector:"Puembo"}, key: 1}
     ];
     setWarehouses(warehouses);
   }

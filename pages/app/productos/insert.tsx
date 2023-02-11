@@ -33,21 +33,21 @@ export default function FormClient() {
       url: 'https://megashop.ec/wp-content/uploads/2020/11/silla-giratoria-.jpg',
     },
   ])
-  const [warehouses, setusers] = useState<Warehouse[]>([])
+  const [warehouseOptions, setWarehouseOptions] = useState<{ label:string, value:string }[]>([])
 
   const init = async () => {
     /*
     axios.get('/api/warehouses').then(({ data }) => {
-      const warehouses = data.map((item: Warehouse, index: number) => ({
-        ...item,
-        key: index,
+      const warehouseOptions = data.map((item: Warehouse) => ({
+        label: item.name,
+        value: item._id
       }))
-      setusers(warehouses)
+      setWarehouseOptions(warehouseOptions)
     })*/
-    const warehouses = [
-      {_id: "1", code: "B1", name:"Bodega Test", dimension:500, address:{sector:"TUMBACO"}}
+    const warehouseOptions = [
+      {label: "1", value: "B1"}
     ];
-    setusers(warehouses);
+    setWarehouseOptions(warehouseOptions);
   }
 
   const handleCancel = () => setPreviewOpen(false)
@@ -130,7 +130,7 @@ export default function FormClient() {
         </Form.Item>
         <Form.Item name="warehouse" label="Bodega">
           <Select
-            options={warehouses}
+            options={warehouseOptions}
             className="w-full"
             placeholder="Seleccione"
           />
