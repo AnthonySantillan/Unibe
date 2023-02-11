@@ -1,0 +1,43 @@
+{
+  "name": "tailwind-nextjs-starter-blog",
+  "version": "1.5.6",
+  "private": true,
+  "scripts": {
+    "start": "NODE_ENV=production node server.js",
+    "dev": "npm run cp-env && next dev -p 5000",
+    "build": "npm run cp-env && next build",
+    "cp-env": "cp enviroments/${ENV=ec.dev}.env .env.local"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@fontsource/inter": "4.5.2",
+    "antd": "^5.1.6",
+    "axios": "^1.2.4",
+    "cookies-next": "^2.1.1",
+    "dayjs": "^1.11.7",
+    "next": "^13.1.6",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.1.2",
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "autoprefixer": "^10.4.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.29.0",
+    "eslint-config-next": "12.1.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.31.11",
+    "inquirer": "^8.1.1",
+    "postcss": "^8.4.21",
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.4",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.5"
+  }
+}
