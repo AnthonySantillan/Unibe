@@ -2,14 +2,14 @@ import axios from 'axios'
 import { User } from '@/types/User'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Button, message, Popconfirm, Space, Table } from 'antd'
+import { Button, message, Popconfirm, Space, Table, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const { Column } = Table
 
 const Clients: React.FC = () => {
   const router = useRouter()
-  const [clients, setusers] = useState<User[]>([])
+  const [clients, setClients] = useState<User[]>([])
 
   const init = async () => {
     axios.get('/api/clients').then(({ data }) => {
@@ -17,7 +17,7 @@ const Clients: React.FC = () => {
         ...item,
         key: index,
       }))
-      setusers(users)
+      setClients(users)
     })
   }
 
@@ -35,13 +35,16 @@ const Clients: React.FC = () => {
 
   return (
     <>
-      <Space className="flex justify-end mb-4">
-        <Button type="primary" className="bg-blue-800" onClick={() => init()}>
-          Refrescar
-        </Button>
-        <Button onClick={() => router.push('/app/clientes/insert')}>
-          Insertar
-        </Button>
+      <Space className="flex justify-between mb-4">
+        <Typography.Title level={3}>Clientes</Typography.Title>
+        <Space className="flex justify-end mb-4">
+          <Button type="primary" className="bg-blue-800" onClick={() => init()}>
+            Refrescar
+          </Button>
+          <Button onClick={() => router.push('/app/clientes/insert')}>
+            Insertar
+          </Button>
+        </Space>
       </Space>
       <Table dataSource={clients}>
         <Column

@@ -27,7 +27,8 @@ export default function FormClient() {
         await axios.post('/api/users', data)
         message.success('Documento guardado correctamente')
       }
-      router.push('/app/clientes')
+      router.push('/app/admin/usuarios')
+      form.resetFields()
     } catch (e) {
       showError(e)
     }
@@ -38,9 +39,13 @@ export default function FormClient() {
   return (
     <Form
       form={form}
-      initialValues={{ state: 'activo' }}
       layout="vertical"
       onFinish={onSubmit}
+      autoComplete="off"
+      initialValues={{
+        username: 'example06',
+        password: '123',
+      }}
     >
       <Card>
         <div className={cssColumnas}>
