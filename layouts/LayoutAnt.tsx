@@ -36,7 +36,7 @@ function getItem(
 const items: MenuItem[] = [
   getItem(<Link href="/app">home</Link>, '1', <HomeOutlined />),
   getItem('Admin', 'sub1', <WindowsOutlined />, [
-    getItem(<Link href="/app/usuarios">Usuarios</Link>, '6'),
+    getItem(<Link href="/app/admin/usuarios">Usuarios</Link>, '6'),
   ]),
   getItem('Inventario', 'sub2', <DesktopOutlined />, [
     getItem(<Link href="/app/productos">Productos</Link>, '3'),
@@ -113,18 +113,10 @@ const LayoutApp: FC<{ children: ReactNode }> = (props) => {
               <Breadcrumb.Item key={'route' + index}>{x}</Breadcrumb.Item>
             ))}
           </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-            }}
-          >
-            {props.children}
-          </div>
+          {props.children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2023 Created by Ant UED
+          ©2023 Created by Developers
         </Footer>
       </Layout>
     </Layout>

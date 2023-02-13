@@ -45,9 +45,15 @@ export default function FormClient() {
       setusers(warehouses)
     })*/
     const warehouses = [
-      {_id: "1", code: "B1", name:"Bodega Test", dimension:500, address:{sector:"TUMBACO"}}
-    ];
-    setusers(warehouses);
+      {
+        _id: '1',
+        code: 'B1',
+        name: 'Bodega Test',
+        dimension: 500,
+        address: { sector: 'TUMBACO' },
+      },
+    ]
+    setusers(warehouses)
   }
 
   const handleCancel = () => setPreviewOpen(false)

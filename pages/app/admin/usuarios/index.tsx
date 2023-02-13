@@ -12,7 +12,7 @@ const Clients: React.FC = () => {
   const [clients, setusers] = useState<User[]>([])
 
   const init = async () => {
-    axios.get('/api/clients').then(({ data }) => {
+    axios.get('/api/users').then(({ data }) => {
       const users = data.map((item: User, index: number) => ({
         ...item,
         key: index,
@@ -27,7 +27,7 @@ const Clients: React.FC = () => {
 
   const remove = async (id: string) => {
     if (id) {
-      await axios.delete(`/api/clients/${id}`)
+      await axios.delete(`/api/users/${id}`)
       message.success('Documento eliminado')
       init()
     }
@@ -44,25 +44,24 @@ const Clients: React.FC = () => {
         </Button>
       </Space>
       <Table dataSource={clients}>
+        <Column title="Usuario" dataIndex="username" key="username" />
         <Column
-          title="Identificación"
-          dataIndex="identification_card"
-          key="identificacion"
+          title="Contraseña"
+          dataIndex="password"
+          key="password"
+          render={(row) => row.replace(/./gi, '*')}
         />
-        <Column title="Nombre" dataIndex="name" key="name" />
-        <Column title="Apellido" dataIndex="last_name" key="last_name" />
         <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Estado" dataIndex="state" key="estado" />
         <Column
           key="action"
           render={(_: User, record: User) => (
             <Space size="middle">
-              <a href={`${'/app/clientes/'}/${record._id}/edit`}>
+              <a href={`${'/app/admin/usuarios/'}/${record._id}/edit`}>
                 <EditOutlined title="Editar" />
               </a>
 
               <Popconfirm
-                title="¿Eliminar cliente?"
+                title="¿Eliminar usuario?"
                 okButtonProps={{
                   type: 'default',
                 }}
