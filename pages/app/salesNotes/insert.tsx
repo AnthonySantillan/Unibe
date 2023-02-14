@@ -1,11 +1,15 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 import $rules from '@/assets/rules'
 import { debounce } from 'ts-debounce'
+import $filtros from '@/assets/filtros'
 import { useRouter } from 'next/router'
+import { Product } from '@/types/Product'
 import { Clients } from '@/types/Clients'
+import { showError } from '@/assets/utils'
 import { FC, useEffect, useState } from 'react'
+import { DeleteOutlined } from '@ant-design/icons'
 import {
-  AutoComplete,
   Button,
   Card,
   DatePicker,
@@ -16,17 +20,13 @@ import {
   FormListOperation,
   Input,
   InputNumber,
+  message,
   Popconfirm,
   Select,
   Space,
   Table,
   Typography,
 } from 'antd'
-import { showError } from '@/assets/utils'
-import { DeleteOutlined } from '@ant-design/icons'
-import { Product } from '@/types/Product'
-import $filtros from '@/assets/filtros'
-import dayjs from 'dayjs'
 const { TextArea } = Input
 
 const addConcepto = () => ({
@@ -53,7 +53,7 @@ export const Conceptos: FC<{
     axios.get('/api/products/').then(({ data }) => {
       const products = data.map((item: Product) => ({
         ...item,
-        value: item.code,
+        value: item._id,
         label: item.name,
       }))
       setOptionsProducts(products)
@@ -88,6 +88,7 @@ export const Conceptos: FC<{
       const dataAnterior = form.getFieldValue(name)
       if (val) {
         Object.assign(dataAnterior, {
+          product: val._id,
           code: val?.code,
           description: val.description,
           unit_value: val.price || 0,
@@ -109,17 +110,19 @@ export const Conceptos: FC<{
           key="product"
           title="Producto"
           render={({ name }) => (
-            <AutoComplete
-              className="w-full"
-              options={optionsProducts}
-              placeholder="Seleccione un producto"
-              filterOption={(inputValue, option) =>
-                option!.value
-                  .toUpperCase()
-                  .indexOf(inputValue.toUpperCase()) !== -1
-              }
-              onSelect={(value, option) => onSelectProduct(value, option, name)}
-            />
+            <Form.Item name={[name, 'product']} rules={[$rules.required()]}>
+              <Select
+                showSearch
+                placeholder="Seleccione un producto"
+                filterOption={(input, option) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={optionsProducts}
+                onSelect={(val, option) => onSelectProduct(val, option, name)}
+              />
+            </Form.Item>
           )}
         />
         <Table.Column
@@ -241,19 +244,19 @@ const SalesNotes: FC = () => {
   type TabsKeys = 'detalles'
   const [tabActiva, setTabActiva] = useState<TabsKeys>('detalles')
   const detalles = Form.useWatch('details', form) || []
-  // const [subTotals, setSubTotals] = useState([])
 
   useEffect(() => {
     if (router.query.id) {
       axios.get(`/api/sales-note/${router.query.id}`).then(({ data }) => {
+        if (data.date) {
+          data.date = dayjs(data.date)
+        }
         if (data.client) {
           const cliente = optionsClients.filter(
             (x: Clients) => x._id === data.client
           )
           if (cliente && cliente.length > 0) {
-            data.client = cliente[0].identification_card
-            form.setFieldValue('cliente', data.client)
-            form.setFieldValue('name', cliente[0].name)
+            form.setFieldValue('last_name', cliente[0].last_name)
             form.setFieldValue('email', cliente[0].email)
           }
         }
@@ -266,33 +269,15 @@ const SalesNotes: FC = () => {
     axios.get('/api/clients/').then(({ data }) => {
       const clients = data.map((item: Clients) => ({
         ...item,
-        value: item.identification_card,
+        value: item._id,
         label: item.name,
       }))
       setOptionsClients(clients)
     })
   }, [])
 
-  const onSubmit = async (data: any) => {
-    data.date = data.date.toISOString()
-    console.log(data)
-    // try {
-    //   if (router.query.id) {
-    //     await axios.put(`/api/sales-note/${router.query.id}`, data)
-    //     message.success('Documento actualizado')
-    //   } else {
-    //     await axios.post('/api/sales-note', data)
-    //     message.success('Documento guardado correctamente')
-    //   }
-    //   router.push('/app/salesNotes')
-    // } catch (err) {
-    //   showError(err)
-    // }
-  }
-
-  const onSelect = (data: string, option: Clients) => {
-    form.setFieldValue('client', option._id)
-    form.setFieldValue('name', option.name)
+  const onSelect = (data: string, option: Record<string, any>) => {
+    form.setFieldValue('last_name', option.last_name)
     form.setFieldValue('email', option.email)
   }
 
@@ -312,13 +297,11 @@ const SalesNotes: FC = () => {
       sumaDescuento += detalle.discount
     }
     const subtotal: Total[] = [{ label: 'Subtotal', total: sumaSubtotal }]
-    form.setFieldValue('subtotal', sumaSubtotal)
     if (sumaDescuento > 0) {
       subtotal.push({
         label: 'Descuento',
         total: sumaDescuento,
       })
-      form.setFieldValue('discount', sumaDescuento)
     }
     if (sumaSubtotal > 0) {
       totalIva = sumaSubtotal * 0.12
@@ -326,19 +309,48 @@ const SalesNotes: FC = () => {
         label: 'IVA 12%',
         total: totalIva,
       })
-      form.setFieldValue('iva', totalIva)
     }
     if (sumaSubtotal > 0 && totalIva > 0) {
       subtotal.push({
         label: 'Total',
         total: sumaSubtotal + totalIva,
       })
-      form.setFieldValue('total', sumaSubtotal + totalIva)
     }
     return subtotal
   }
 
   const subTotals = getSubTotals()
+
+  const onSubmit = async (data: any) => {
+    data.date = data.date.toISOString()
+    for (const totals of subTotals) {
+      if (totals.label === 'Subtotal') {
+        data.subtotal = totals.total
+      }
+      if (totals.label === 'Total') {
+        data.total = totals.total
+      }
+      if (totals.label === 'IVA 12%') {
+        data.iva = totals.total
+      }
+      if (totals.label === 'Descuento') {
+        data.discount = totals.total
+      }
+    }
+    console.log(data)
+    try {
+      if (router.query.id) {
+        await axios.put(`/api/sales-note/${router.query.id}`, data)
+        message.success('Documento actualizado')
+      } else {
+        await axios.post('/api/sales-note', data)
+        message.success('Documento guardado correctamente')
+      }
+      router.push('/app/salesNotes')
+    } catch (err) {
+      showError(err)
+    }
+  }
 
   return (
     <Form
@@ -394,23 +406,21 @@ const SalesNotes: FC = () => {
       <Card className="mt-4 mb-4">
         <Typography.Title level={4}>Información cliente</Typography.Title>
         <div className={cssColumnas}>
-          <Form.Item name="cliente" label="Cliente" rules={[$rules.required()]}>
-            <AutoComplete
-              options={optionsClients}
+          <Form.Item name="client" label="Cliente" rules={[$rules.required()]}>
+            <Select
+              showSearch
               placeholder="Seleccione un cliente"
-              filterOption={(inputValue, option) =>
-                option!.value
-                  .toUpperCase()
-                  .indexOf(inputValue.toUpperCase()) !== -1
+              filterOption={(input, option) =>
+                (option?.label ?? '')
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
               }
-              onSelect={(value, option) => onSelect(value, option)}
+              options={optionsClients}
+              onSelect={onSelect}
             />
           </Form.Item>
-          <Form.Item name="client" className="hidden">
-            <Input type="hidden" />
-          </Form.Item>
-          <Form.Item name="name" label="Razón social">
-            <Input placeholder="Ingrese el nombre" />
+          <Form.Item name="last_name" label="Apellido">
+            <Input placeholder="Ingrese el apellido" />
           </Form.Item>
           <Form.Item name="email" label="Email">
             <Input placeholder="Ingrese el correo" />
