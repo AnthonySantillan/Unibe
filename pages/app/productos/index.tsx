@@ -35,17 +35,17 @@ const Products: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-end">
+      <Space className="flex justify-end mb-4">
         <Button type="primary" className="bg-blue-800" onClick={() => init()}>
           Refrescar
         </Button>
         <Button onClick={() => router.push('/app/productos/insert')}>
           Insertar
         </Button>
-      </div>
+      </Space>
       <Table dataSource={products}>
         <Column title="Código" dataIndex="code" key="code" />
-        <Column title="Descripción" dataIndex="description" key="description" />
+        <Column title="Nombre" dataIndex="name" key="nombre" />
         <Column title="Precio" dataIndex="price" key="price" />
         <Column title="Stock" dataIndex="total" key="total" />
         <Column

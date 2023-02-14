@@ -89,13 +89,12 @@ export default function FormClient() {
     }
   }, [router.query.id])
 
-  const onSubmit = (data: User) => {
-    console.log(data)
+  const onSubmit = async (data: User) => {
     if (router.query.id) {
-      axios.put(`/api/products/${router.query.id}`, data)
+      await axios.put(`/api/products/${router.query.id}`, data)
       message.success('Documento actualizado')
     } else {
-      axios.post('/api/products', data)
+      await axios.post('/api/products', data)
       message.success('Documento guardado correctamente')
     }
     router.push('/app/productos')
@@ -117,15 +116,11 @@ export default function FormClient() {
           <Input placeholder="Ingrese el código" />
         </Form.Item>
 
-        <Form.Item
-          name="description"
-          label="Descripción"
-          rules={[$rules.required()]}
-        >
+        <Form.Item name="name" label="Nombre" rules={[$rules.required()]}>
           <Input placeholder="Ingrese una descripción" />
         </Form.Item>
-        <Form.Item name="title" label="Titulo">
-          <Input placeholder="Ingrese un titulo" />
+        <Form.Item name="description" label="Descripción">
+          <Input placeholder="Ingrese una descripción" />
         </Form.Item>
         <Form.Item name="price" label="Precio">
           <InputNumber
