@@ -8,12 +8,14 @@ import { useEffect, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 import {
   Button,
+  Card,
   Form,
   Input,
   InputNumber,
   message,
   Modal,
   Select,
+  Space,
   Upload,
   UploadFile,
   UploadProps,
@@ -107,44 +109,57 @@ export default function FormClient() {
   const cssColumnas = 'grid grid-cols-1 md:grid-cols-2 gap-x-6'
 
   return (
-    <Form form={form} layout="vertical" onFinish={onSubmit}>
-      <div className={cssColumnas}>
-        <Form.Item name="code" label="Código" rules={[$rules.required()]}>
-          <Input placeholder="Ingrese el código" />
-        </Form.Item>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onSubmit}
+      initialValues={{
+        price: 0,
+      }}
+    >
+      <Card className="mb-4">
+        <div className={cssColumnas}>
+          <Form.Item name="code" label="Código" rules={[$rules.required()]}>
+            <Input placeholder="Ingrese el código" />
+          </Form.Item>
 
-        <Form.Item name="name" label="Nombre" rules={[$rules.required()]}>
-          <Input placeholder="Ingrese una descripción" />
-        </Form.Item>
-        <Form.Item name="description" label="Descripción">
-          <Input placeholder="Ingrese una descripción" />
-        </Form.Item>
-        <Form.Item name="price" label="Precio">
-          <InputNumber
-            className="w-full"
-            precision={2}
-            placeholder="Ingrese el precio del productos"
-          />
-        </Form.Item>
-        <Form.Item name="warehouse" label="Bodega">
-          <Select
-            options={warehouseOptions}
-            className="w-full"
-            placeholder="Seleccione"
-          />
-        </Form.Item>
-        <Form.Item name="imag" label="Precio">
-          <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
+          <Form.Item name="name" label="Nombre" rules={[$rules.required()]}>
+            <Input placeholder="Ingrese una descripción" />
+          </Form.Item>
+          <Form.Item name="description" label="Descripción">
+            <Input placeholder="Ingrese una descripción" />
+          </Form.Item>
+          <Form.Item name="price" label="Precio">
+            <InputNumber
+              className="w-full"
+              precision={2}
+              placeholder="Ingrese el precio del productos"
+            />
+          </Form.Item>
+          <Form.Item
+            name="warehouse"
+            label="Bodega"
+            rules={[$rules.required()]}
           >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
-        </Form.Item>
-      </div>
+            <Select
+              options={warehouseOptions}
+              className="w-full"
+              placeholder="Seleccione"
+            />
+          </Form.Item>
+          <Form.Item name="imag" label="Imagen">
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
+        </div>
+      </Card>
       <Modal
         open={previewOpen}
         title={previewTitle}
@@ -153,13 +168,14 @@ export default function FormClient() {
       >
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
-
-      <Button type="primary" className=" bg-blue-400" htmlType="submit">
-        Guardar
-      </Button>
-      <Button className="ml-3" onClick={() => router.push('/app/productos')}>
-        Cancelar
-      </Button>
+      <Space className="mt-4 flex justify-end mr-4">
+        <Button type="primary" className=" bg-blue-400" htmlType="submit">
+          Guardar
+        </Button>
+        <Button className="ml-3" onClick={() => router.push('/app/productos')}>
+          Cancelar
+        </Button>
+      </Space>
     </Form>
   )
 }

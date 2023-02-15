@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Button, message, Popconfirm, Space, Table } from 'antd'
+import { Button, message, Popconfirm, Space, Table, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const { Column } = Table
@@ -35,13 +35,16 @@ const Products: React.FC = () => {
 
   return (
     <>
-      <Space className="flex justify-end mb-4">
-        <Button type="primary" className="bg-blue-800" onClick={() => init()}>
-          Refrescar
-        </Button>
-        <Button onClick={() => router.push('/app/productos/insert')}>
-          Insertar
-        </Button>
+      <Space className="flex justify-between mb-4">
+        <Typography.Title level={3}>Productos</Typography.Title>
+        <Space>
+          <Button type="primary" className="bg-blue-800" onClick={() => init()}>
+            Refrescar
+          </Button>
+          <Button onClick={() => router.push('/app/productos/insert')}>
+            Insertar
+          </Button>
+        </Space>
       </Space>
       <Table dataSource={products}>
         <Column title="Código" dataIndex="code" key="code" />

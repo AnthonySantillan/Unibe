@@ -37,7 +37,7 @@ const Clients: React.FC = () => {
     <>
       <Space className="flex justify-between mb-4">
         <Typography.Title level={3}>Clientes</Typography.Title>
-        <Space className="flex justify-end mb-4">
+        <Space>
           <Button type="primary" className="bg-blue-800" onClick={() => init()}>
             Refrescar
           </Button>

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { Cellar } from '@/types/Cellars'
 import React, { useEffect, useState } from 'react'
-import { Button, message, Popconfirm, Space, Table } from 'antd'
+import { Button, message, Popconfirm, Space, Table, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const { Column } = Table
@@ -35,14 +35,17 @@ const Warehouses: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-end">
-        <Button type="primary" className="bg-blue-800" onClick={() => init()}>
-          Refrescar
-        </Button>
-        <Button onClick={() => router.push('/app/bodegas/insert')}>
-          Insertar
-        </Button>
-      </div>
+      <Space className="flex justify-between mb-4">
+        <Typography.Title level={3}>Bodegas</Typography.Title>
+        <Space>
+          <Button type="primary" className="bg-blue-800" onClick={() => init()}>
+            Refrescar
+          </Button>
+          <Button onClick={() => router.push('/app/bodegas/insert')}>
+            Insertar
+          </Button>
+        </Space>
+      </Space>
       <Table dataSource={cellars}>
         <Column title="Código" dataIndex="code" key="code" />
         <Column title="Nombre" dataIndex="name" key="name" />
