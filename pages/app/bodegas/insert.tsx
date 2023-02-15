@@ -1,7 +1,8 @@
 import axios from 'axios'
 import $rules from '@/assets/rules'
-import { Cellar } from '@/types/Cellars'
 import { useRouter } from 'next/router'
+import { Cellar } from '@/types/Cellars'
+import { showError } from '@/assets/utils'
 import {
   Button,
   Card,
@@ -18,15 +19,18 @@ export default function FormClient() {
   const [form] = Form.useForm()
 
   const onSubmit = (data: Cellar) => {
-    console.log(data)
-    if (router.query.id) {
-      axios.put(`/api/warehouses/${router.query.id}`, data)
-      message.success('Documento actualizado')
-    } else {
-      axios.post('/api/warehouses', data)
-      message.success('Documento guardado correctamente')
+    try {
+      if (router.query.id) {
+        axios.put(`/api/cellars/${router.query.id}`, data)
+        message.success('Documento actualizado')
+      } else {
+        axios.post('/api/cellars', data)
+        message.success('Documento guardado correctamente')
+      }
+      router.push('/app/bodegas')
+    } catch (err) {
+      showError(err)
     }
-    router.push('/app/bodegas')
   }
 
   const cssColumnas = 'grid grid-cols-1 md:grid-cols-3 gap-x-6'

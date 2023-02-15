@@ -5,6 +5,7 @@ import { RcFile } from 'antd/es/upload'
 import { useRouter } from 'next/router'
 import { Cellar } from '@/types/Cellars'
 import { useEffect, useState } from 'react'
+import { showError } from '@/assets/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import {
   Button,
@@ -89,14 +90,18 @@ export default function FormClient() {
   }, [])
 
   const onSubmit = async (data: User) => {
-    if (router.query.id) {
-      await axios.put(`/api/products/${router.query.id}`, data)
-      message.success('Documento actualizado')
-    } else {
-      await axios.post('/api/products', data)
-      message.success('Documento guardado correctamente')
+    try {
+      if (router.query.id) {
+        await axios.put(`/api/products/${router.query.id}`, data)
+        message.success('Documento actualizado')
+      } else {
+        await axios.post('/api/products', data)
+        message.success('Documento guardado correctamente')
+      }
+      router.push('/app/productos')
+    } catch (e) {
+      showError(e)
     }
-    router.push('/app/productos')
   }
 
   const uploadButton = (
@@ -136,11 +141,7 @@ export default function FormClient() {
               placeholder="Ingrese el precio del productos"
             />
           </Form.Item>
-          <Form.Item
-            name="warehouse"
-            label="Bodega"
-            rules={[$rules.required()]}
-          >
+          <Form.Item name="bodega" label="Bodega" rules={[$rules.required()]}>
             <Select
               options={warehouseOptions}
               className="w-full"
