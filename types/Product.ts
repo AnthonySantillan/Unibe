@@ -1,4 +1,4 @@
-import { Warehouse } from './Warehouse'
+import { Warehouse } from './Cellars'
 
 export interface Product {
   _id: string

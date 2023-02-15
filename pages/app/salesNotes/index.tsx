@@ -12,7 +12,7 @@ const SalesNotes: React.FC = () => {
   const [products, setusers] = useState<Product[]>([])
 
   const init = async () => {
-    axios.get('/api/sales-note').then(({ data }) => {
+    axios.get('/api/salesNotes').then(({ data }) => {
       console.log(data)
       const products = data.map((item: Product, index: number) => ({
         ...item,
@@ -28,7 +28,7 @@ const SalesNotes: React.FC = () => {
 
   const remove = async (id: string) => {
     if (id) {
-      await axios.delete(`/api/sales-note/${id}`)
+      await axios.delete(`/api/salesNotes/${id}`)
       message.success('Documento eliminado')
       init()
     }

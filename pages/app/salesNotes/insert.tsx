@@ -247,7 +247,7 @@ const SalesNotes: FC = () => {
 
   useEffect(() => {
     if (router.query.id) {
-      axios.get(`/api/sales-note/${router.query.id}`).then(({ data }) => {
+      axios.get(`/api/salesNotes/${router.query.id}`).then(({ data }) => {
         if (data.date) {
           data.date = dayjs(data.date)
         }
@@ -340,10 +340,10 @@ const SalesNotes: FC = () => {
     console.log(data)
     try {
       if (router.query.id) {
-        await axios.put(`/api/sales-note/${router.query.id}`, data)
+        await axios.put(`/api/salesNotes/${router.query.id}`, data)
         message.success('Documento actualizado')
       } else {
-        await axios.post('/api/sales-note', data)
+        await axios.post('/api/salesNotes', data)
         message.success('Documento guardado correctamente')
       }
       router.push('/app/salesNotes')

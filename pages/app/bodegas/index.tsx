@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { Warehouse } from '@/types/Warehouse'
 import { useRouter } from 'next/router'
+import { Cellar } from '@/types/Cellars'
 import React, { useEffect, useState } from 'react'
 import { Button, message, Popconfirm, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
@@ -9,21 +9,16 @@ const { Column } = Table
 
 const Warehouses: React.FC = () => {
   const router = useRouter()
-  const [warehouses, setWarehouses] = useState<Warehouse[]>([])
+  const [cellars, setCellars] = useState<Cellar[]>([])
 
   const init = async () => {
-    /*
-    axios.get('/api/warehouses').then(({ data }) => {
-      const warehouses = data.map((item: Warehouse, index: number) => ({
+    axios.get('/api/cellars').then(({ data }) => {
+      const dataCellars = data.map((item: Cellar, index: number) => ({
         ...item,
         key: index,
       }))
-      setusers(warehouses)
-    })*/
-    const warehouses = [
-      {_id: "1", code: "B1", name:"Bodega Test", dimension:500, address:{sector:"TUMBACO"}}
-    ];
-    setWarehouses(warehouses);
+      setCellars(dataCellars)
+    })
   }
 
   useEffect(() => {
@@ -32,12 +27,11 @@ const Warehouses: React.FC = () => {
 
   const remove = async (id: string) => {
     if (id) {
-      await axios.delete(`/api/warehouses/${id}`)
+      await axios.delete(`/api/cellars/${id}`)
       message.success('Documento eliminado')
       init()
     }
   }
-  //<Column title="Dirección" dataIndex="address.sector" key="address.sector" />
 
   return (
     <>
@@ -49,13 +43,13 @@ const Warehouses: React.FC = () => {
           Insertar
         </Button>
       </div>
-      <Table dataSource={warehouses}>
+      <Table dataSource={cellars}>
         <Column title="Código" dataIndex="code" key="code" />
         <Column title="Nombre" dataIndex="name" key="name" />
         <Column title="Dimensión" dataIndex="dimension" key="dimension" />
         <Column
           key="action"
-          render={(_: Warehouse, record: Warehouse) => (
+          render={(_: Cellar, record: Cellar) => (
             <Space size="middle">
               <a href={`${'/app/bodegas/'}/${record._id}/edit`}>
                 <EditOutlined title="Editar" />

@@ -1,9 +1,9 @@
 import { Address } from './Address'
 
-export interface Warehouse {
+export interface Cellar {
   _id: string
   code: string
-  name: String
+  name: string
   dimension?: number
   address: Address
 }

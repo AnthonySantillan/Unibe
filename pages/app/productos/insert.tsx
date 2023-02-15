@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
-import $rules from '@/assets/rules'
 import { User } from '@/types/User'
-import { Warehouse } from '@/types/Warehouse'
+import $rules from '@/assets/rules'
+import { RcFile } from 'antd/es/upload'
 import { useRouter } from 'next/router'
+import { Cellar } from '@/types/Cellars'
+import { useEffect, useState } from 'react'
+import { PlusOutlined } from '@ant-design/icons'
 import {
   Button,
   Form,
@@ -16,8 +18,6 @@ import {
   UploadFile,
   UploadProps,
 } from 'antd'
-import { RcFile } from 'antd/es/upload'
-import { PlusOutlined } from '@ant-design/icons'
 
 export default function FormClient() {
   const router = useRouter()
@@ -33,27 +33,20 @@ export default function FormClient() {
       url: 'https://megashop.ec/wp-content/uploads/2020/11/silla-giratoria-.jpg',
     },
   ])
-  const [warehouses, setusers] = useState<Warehouse[]>([])
+  const [warehouseOptions, setWarehouseOptions] = useState<
+    { label: string; value: string }[]
+  >([])
 
   const init = async () => {
-    /*
-    axios.get('/api/warehouses').then(({ data }) => {
-      const warehouses = data.map((item: Warehouse, index: number) => ({
-        ...item,
-        key: index,
+    axios.get('/api/cellars').then(({ data }) => {
+      const warehouseOptions = data.map((item: Cellar) => ({
+        label: item.name,
+        value: item._id,
       }))
-      setusers(warehouses)
-    })*/
-    const warehouses = [
-      {
-        _id: '1',
-        code: 'B1',
-        name: 'Bodega Test',
-        dimension: 500,
-        address: { sector: 'TUMBACO' },
-      },
-    ]
-    setusers(warehouses)
+      setWarehouseOptions(warehouseOptions)
+    })
+    const warehouseOptions = [{ label: '1', value: 'B1' }]
+    setWarehouseOptions(warehouseOptions)
   }
 
   const handleCancel = () => setPreviewOpen(false)
@@ -88,6 +81,10 @@ export default function FormClient() {
       })
     }
   }, [router.query.id])
+
+  useEffect(() => {
+    Promise.all([init()])
+  }, [])
 
   const onSubmit = async (data: User) => {
     if (router.query.id) {
@@ -131,7 +128,7 @@ export default function FormClient() {
         </Form.Item>
         <Form.Item name="warehouse" label="Bodega">
           <Select
-            options={warehouses}
+            options={warehouseOptions}
             className="w-full"
             placeholder="Seleccione"
           />
