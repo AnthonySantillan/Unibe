@@ -22,7 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::apiResource('users',UsersController::class);
 Route::apiResource('address',AddressController::class);
 Route::apiResource('cellars',CellarsController::class);
 Route::apiResource('products',ProductsController::class);

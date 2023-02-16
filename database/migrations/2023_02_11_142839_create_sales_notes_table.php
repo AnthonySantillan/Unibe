@@ -14,12 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sales_notes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('sales_notes_product_id')->constrained('sales_notes_products');
-            $table->text('code');
+            $table->uuid('_id')->primary();
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('_id')->on('users');
+            $table->uuid('sales_notes_product_id');
+            $table->foreign('sales_notes_product_id')->references('_id')->on('sales_notes_products');
             $table->text('invoice_number');
             $table->decimal('subtotal');
+            $table->uuid('client_id');
+            $table->foreign('client_id')->references('_id')->on('customers');
+            $table->decimal('discount');
+            $table->date('date');
+            $table->text('observation');
+            $table->text('forma_pago');
             $table->decimal('iva');
             $table->decimal('total');
             $table->text('state');

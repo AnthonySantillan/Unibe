@@ -10,12 +10,16 @@ class SalesNotesProducts extends Model
     use HasFactory;
 
     protected $table = 'sales_notes_products';
+    protected $primaryKey = '_id';
 
     protected $fillable = [
         'amount',
+        'description',
         'unit_value',
         'iva',
-        'total'
+        'code',
+        'importe',
+        'discount',
     ];
 
 //uno a uno

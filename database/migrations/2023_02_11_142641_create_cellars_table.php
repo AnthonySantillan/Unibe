@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cellars', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('addres_id')->constrained('address');
+            $table->uuid('_id')->primary();
+            $table->uuid('addres_id');
+            $table->foreign('addres_id')->references('_id')->on('address');
             $table->text('code');
             $table->text('dimension');
             $table->text('name');

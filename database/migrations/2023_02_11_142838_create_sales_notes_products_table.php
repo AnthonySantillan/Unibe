@@ -14,12 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sales_notes_products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->integer('amount');
+            $table->uuid('_id')->primary();
+            $table->uuid('product_id');
+            $table->foreign('product_id')->references('_id')->on('products');
+            $table->decimal('amount');
+            $table->text('code');
+            $table->text('description');
+            $table->decimal('importe');
+            $table->decimal('discount');
             $table->decimal('unit_value');
             $table->decimal('iva');
-            $table->decimal('total');
             $table->timestamps();
         });
     }

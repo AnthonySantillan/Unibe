@@ -10,14 +10,18 @@ class SalesNotes extends Model
     use HasFactory;
 
     protected $table = 'sales_notes';
+    protected $primaryKey = '_id';
 
     protected $fillable = [
-        'code',
-        'invoice_number',
-        'subtotal',
         'iva',
         'total',
-        'state'
+        'state',
+        'subtotal',
+        'discount',
+        'date',
+        'observation',
+        'forma_pago',
+        'invoice_number',
     ];
 
 //uno a uno
@@ -28,5 +32,9 @@ class SalesNotes extends Model
 //uno a varios
     public function users(){
         return $this->hasMany(User::class);
+    }
+
+    public function customers(){
+        return $this->hasOne(Customers::class);
     }
 }

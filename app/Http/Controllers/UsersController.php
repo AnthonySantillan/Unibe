@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 
 class UsersController extends Controller
 {
@@ -15,17 +17,29 @@ class UsersController extends Controller
     public function index()
     {
         $user = User::get();
-        return response()->json(
-            [
-                'data' => $user,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
+        return response()->json($user, 200);
+    }
 
-            ],200
-        );
+    public function auth(Request $request)
+    {
+        $data = json_decode($request->getContent());
+        $user = User::where('username', $data->username)->first();
+        $response = [];
+        $status = 200;
+        if ($user) {
+            if ($data->password === $user->password) {
+                $token = $user->createToken('TokenUser');
+                $response["name"] = $user->username;
+                $response["token"] = $token->plainTextToken;
+            } else{
+                $response["message"] = 'El usuario y/o contraseña son incorrectos';
+                $status=401;
+            }
+        } else {
+            $response["message"] = 'El usuario y/o contraseña son incorrectos';
+            $status=404;
+        }
+        return response()->json($response)->setStatusCode($status);
     }
 
     /**
@@ -39,7 +53,6 @@ class UsersController extends Controller
         $user = new User();
         $user->username = $request->username;
         $user->password = $request->password;
-        $user->state = $request->state;
         $user->save();
 
         return response()->json(
@@ -64,17 +77,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return response()->json(
-            [
-                'data' => $user,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta del usuario funciono correctamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($user,200);
     }
 
     /**

@@ -14,11 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('cellar_id')->constrained('cellars');
+            $table->uuid('_id')->primary();
+            $table->uuid('cellar_id');
+            $table->foreign('cellar_id')->references('_id')->on('cellars');
             $table->text('code');
             $table->text('name');
+            $table->text('description');
             $table->decimal('price');
+            $table->integer('total');
             $table->text('state');
             $table->timestamps();
         });
