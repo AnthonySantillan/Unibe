@@ -19,7 +19,6 @@ class SalesNotesProducts extends Model
         'description',
         'unit_value',
         'iva',
-        'code',
         'importe',
         'discount',
     ];

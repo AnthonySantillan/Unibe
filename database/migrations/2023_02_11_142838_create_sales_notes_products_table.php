@@ -18,7 +18,6 @@ return new class extends Migration
             $table->uuid('product_id');
             $table->foreign('product_id')->references('_id')->on('products');
             $table->decimal('amount');
-            $table->text('code');
             $table->text('description');
             $table->decimal('importe');
             $table->decimal('discount')->nullable();
