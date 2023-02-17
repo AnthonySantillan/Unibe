@@ -107,7 +107,7 @@ export const Conceptos: FC<{
         className="mb-6"
       >
         <Table.Column
-          key="product"
+          key="product_id"
           title="Producto"
           render={({ name }) => (
             <Form.Item name={[name, 'product']} rules={[$rules.required()]}>
@@ -406,7 +406,11 @@ const SalesNotes: FC = () => {
       <Card className="mt-4 mb-4">
         <Typography.Title level={4}>Información cliente</Typography.Title>
         <div className={cssColumnas}>
-          <Form.Item name="client" label="Cliente" rules={[$rules.required()]}>
+          <Form.Item
+            name="client_id"
+            label="Cliente"
+            rules={[$rules.required()]}
+          >
             <Select
               showSearch
               placeholder="Seleccione un cliente"

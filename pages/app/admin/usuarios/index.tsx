@@ -49,6 +49,7 @@ const Clients: React.FC = () => {
       <Table dataSource={users}>
         <Column title="Usuario" dataIndex="username" key="username" />
         <Column
+          width={20}
           title="Contraseña"
           dataIndex="password"
           key="password"

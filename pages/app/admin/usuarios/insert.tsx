@@ -13,10 +13,11 @@ export default function FormClient() {
   useEffect(() => {
     if (router.query.id) {
       axios.get(`/api/users/${router.query.id}`).then(({ data }) => {
+        console.log(data)
         form.setFieldsValue(data)
       })
     }
-  }, [router.query.id])
+  }, [router.query.id, form])
 
   const onSubmit = async (data: User) => {
     try {

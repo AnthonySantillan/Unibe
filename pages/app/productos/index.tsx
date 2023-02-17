@@ -49,7 +49,14 @@ const Products: React.FC = () => {
       <Table dataSource={products}>
         <Column title="Código" dataIndex="code" key="code" />
         <Column title="Nombre" dataIndex="name" key="nombre" />
-        <Column title="Precio" dataIndex="price" key="price" />
+        <Column
+          title="Precio"
+          dataIndex="price"
+          key="price"
+          render={(_: Product, record: Product) =>
+            record.price ? record.price : '0,00'
+          }
+        />
         <Column title="Stock" dataIndex="total" key="total" />
         <Column
           key="action"

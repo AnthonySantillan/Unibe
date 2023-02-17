@@ -186,6 +186,7 @@ const ContextoUsuario: FunctionComponent<{ children: ReactNode }> = ({
     obtenerDatosSesion()
       .then((data) => {
         if (data) {
+          console.log(data)
           setUser(data)
           setIsReady(true)
         } else {

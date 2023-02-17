@@ -48,7 +48,6 @@ export default function FormClient() {
       }))
       setWarehouseOptions(warehouseOptions)
     })
-    const warehouseOptions = [{ label: '1', value: 'B1' }]
     setWarehouseOptions(warehouseOptions)
   }
 
@@ -134,14 +133,18 @@ export default function FormClient() {
           <Form.Item name="description" label="Descripción">
             <Input placeholder="Ingrese una descripción" />
           </Form.Item>
-          <Form.Item name="price" label="Precio">
+          <Form.Item name="price" label="Precio" rules={[$rules.required()]}>
             <InputNumber
               className="w-full"
               precision={2}
               placeholder="Ingrese el precio del productos"
             />
           </Form.Item>
-          <Form.Item name="bodega" label="Bodega" rules={[$rules.required()]}>
+          <Form.Item
+            name="cellar_id"
+            label="Bodega"
+            rules={[$rules.required()]}
+          >
             <Select
               options={warehouseOptions}
               className="w-full"

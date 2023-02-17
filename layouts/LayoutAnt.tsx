@@ -79,7 +79,7 @@ const LayoutApp: FC<{ children: ReactNode }> = (props) => {
           }}
         >
           {/* {user?.name} */}
-          'HENRRY'
+          ''
         </div>
         <Menu theme="dark" mode="inline" items={items} />
       </Sider>
