@@ -7,7 +7,7 @@ use App\Models\Customers;
 
 class CustomersController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -15,17 +15,7 @@ class CustomersController extends Controller
     public function index()
     {
         $customers = Customers::get();
-        return response()->json(
-            [
-                'data' => $customers,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($customers, 200);
     }
 
     /**
@@ -69,17 +59,7 @@ class CustomersController extends Controller
     public function show($id)
     {
         $customers = Customers::find($id);
-        return response()->json(
-            [
-                'data' => $customers,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta del usuario funciono correctamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($customers, 200);
     }
 
     /**

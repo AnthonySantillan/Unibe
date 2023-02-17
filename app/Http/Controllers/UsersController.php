@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 
 
@@ -19,18 +17,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json(
-            [
-                'data' => $users,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
-        // return response()->json($user, 200);
+        return response()->json($users,200);
     }
 
     public function auth(Request $request)
@@ -66,7 +53,12 @@ class UsersController extends Controller
         $user = new User();
         $user->username = $request->username;
         $user->password = $request->password;
-        $user->email = $request->email;
+        if ($request->email) {
+            $user->email = $request->email;
+        }
+        if ($request->state) {
+            $user->state = $request->state;
+        }
         $user->save();
 
         return response()->json(
@@ -90,8 +82,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // return((int) $id);
-        $user = User::find((int) $id);
+        $user = User::find($id);
         return response()->json($user,200);
     }
 
@@ -107,7 +98,12 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->username = $request->username;
         $user->password = $request->password;
-        $user->state = $request->state;
+        if ($request->email) {
+            $user->email = $request->email;
+        }
+        if ($request->state) {
+            $user->state = $request->state;
+        }
         $user->save();
 
         return response()->json(

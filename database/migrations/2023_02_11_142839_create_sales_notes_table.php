@@ -15,21 +15,21 @@ return new class extends Migration
     {
         Schema::create('sales_notes', function (Blueprint $table) {
             $table->uuid('_id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('_id')->on('users');
-            $table->uuid('sales_notes_product_id');
+            $table->uuid('sales_notes_product_id')->nullable();
             $table->foreign('sales_notes_product_id')->references('_id')->on('sales_notes_products');
             $table->text('invoice_number');
             $table->decimal('subtotal');
-            $table->uuid('client_id');
+            $table->uuid('client_id')->nullable();
             $table->foreign('client_id')->references('_id')->on('customers');
-            $table->decimal('discount');
+            $table->decimal('discount')->nullable();
             $table->date('date');
-            $table->text('observation');
+            $table->text('observation')->nullable();
             $table->text('forma_pago');
-            $table->decimal('iva');
+            $table->decimal('iva')->nullable();
             $table->decimal('total');
-            $table->text('state');
+            $table->text('state')->nullable();
             $table->timestamps();
         });
     }

@@ -12,6 +12,8 @@ class Cellars extends Model
     use HasFactory, Uuids;
 
     protected $table = 'cellars';
+    protected $primaryKey = '_id';
+
     protected $fillable = [
         'code',
         'dimension ',

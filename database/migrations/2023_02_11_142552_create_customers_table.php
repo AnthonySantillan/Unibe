@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->uuid('_id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('_id')->on('users');
             $table->uuid('addres_id')->nullable();
             $table->foreign('addres_id')->references('_id')->on('address');
             $table->text('identification_card');
             $table->text('name');
             $table->text('last_name');
-            $table->text('email');
-            $table->text('phone');
-            $table->text('role');
-            $table->text('state');
+            $table->text('email')->nullable();
+            $table->text('phone')->nullable();
+            $table->text('role')->nullable();
+            $table->text('state')->nullable();
             $table->timestamps();
         });
     }

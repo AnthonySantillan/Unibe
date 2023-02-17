@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('address', function (Blueprint $table) {
             $table->uuid('_id')->primary();
             $table->text('city');
-            $table->text('parish');
-            $table->text('sector');
-            $table->text('neighborhood');
+            $table->text('parish')->nullable();
+            $table->text('sector')->nullable();
+            $table->text('neighborhood')->nullable();
             $table->text('main_street');
-            $table->text('back_street');
-            $table->text('house_number');
-            $table->text('reference');
+            $table->text('back_street')->nullable();
+            $table->text('house_number')->nullable();
+            $table->text('reference')->nullable();
             $table->timestamps();
         });
     }

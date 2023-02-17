@@ -7,7 +7,7 @@ use App\Models\Cellars;
 
 class CellarsController extends Controller
 {
-      /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -15,17 +15,7 @@ class CellarsController extends Controller
     public function index()
     {
         $cellars = Cellars::get();
-        return response()->json(
-            [
-                'data' => $cellars,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($cellars, 200);
     }
 
     /**
@@ -37,11 +27,17 @@ class CellarsController extends Controller
     public function store(Request $request)
     {
         $cellars = new Cellars();
-        $cellars->addres_id = $request->addres_id;
         $cellars->code = $request->code;
-        $cellars->dimension = $request->dimension;
         $cellars->name = $request->name;
-        $cellars->state = $request->state;
+        if ($request->dimension) {
+            $cellars->dimension = $request->dimension;
+        }
+        if ($request->state) {
+            $cellars->state = $request->state;
+        }
+        if ($request->addres_id) {
+            $cellars->addres_id = $request->addres_id;
+        } 
         $cellars->save();
 
         return response()->json(
@@ -66,17 +62,7 @@ class CellarsController extends Controller
     public function show($id)
     {
         $cellars = Cellars::find($id);
-        return response()->json(
-            [
-                'data' => $cellars,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta del usuario funciono correctamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($cellars, 200);
     }
 
     /**
@@ -89,11 +75,17 @@ class CellarsController extends Controller
     public function update(Request $request, $id)
     {
         $cellars = Cellars::find($id);
-        $cellars->addres_id = $request->addres_id;
         $cellars->code = $request->code;
-        $cellars->dimension = $request->dimension;
         $cellars->name = $request->name;
-        $cellars->state = $request->state;
+        if ($request->dimension) {
+            $cellars->dimension = $request->dimension;
+        }
+        if ($request->state) {
+            $cellars->state = $request->state;
+        }
+        if ($request->addres_id) {
+            $cellars->addres_id = $request->addres_id;
+        } 
         $cellars->save();
 
         return response()->json(

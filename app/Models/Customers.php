@@ -12,6 +12,7 @@ class Customers extends Model
     use HasFactory, Uuids;
 
     protected $table = 'customers';
+    protected $primaryKey = '_id';
 
     protected $fillable = [
         'identification_card',

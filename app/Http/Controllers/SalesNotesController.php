@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SalesNotes;
 class SalesNotesController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -14,17 +14,7 @@ class SalesNotesController extends Controller
     public function index()
     {
         $salesNotes = SalesNotes::get();
-        return response()->json(
-            [
-                'data' => $salesNotes,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($salesNotes,200);
     }
 
     /**
@@ -67,17 +57,7 @@ class SalesNotesController extends Controller
     public function show($id)
     {
         $salesNotes = SalesNotes::find($id);
-        return response()->json(
-            [
-                'data' => $salesNotes,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta del usuario funciono correctamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($salesNotes, 200);
     }
 
     /**

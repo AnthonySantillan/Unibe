@@ -21,9 +21,9 @@ return new class extends Migration
             $table->text('code');
             $table->text('description');
             $table->decimal('importe');
-            $table->decimal('discount');
+            $table->decimal('discount')->nullable();
             $table->decimal('unit_value');
-            $table->decimal('iva');
+            $table->decimal('iva')->nullable();
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@ use App\Models\Address;
 
 class AddressController extends Controller
 {
-      /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -15,17 +15,7 @@ class AddressController extends Controller
     public function index()
     {
         $address = Address::get();
-        return response()->json(
-            [
-                'data' => $address,
-                'msg' => [
-                    'summary' => 'consulta correcta',
-                    'detail' => 'la consulta se realizo exitosamente',
-                    'code' => '200'
-                ]
-
-            ],200
-        );
+        return response()->json($address,200);
     }
 
     /**

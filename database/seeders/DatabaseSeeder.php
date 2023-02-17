@@ -25,9 +25,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Customers::factory()->create([
-            '_id'                 => Str::uuid()->toString(),
             'user_id'             => $userId,
-            'addres_id'               => null,
+            'addres_id'            => null,
             'identification_card' => '1754052718',
             'name'                => 'Anthony',
             'last_name'           => 'Santillan',
@@ -35,6 +34,17 @@ class DatabaseSeeder extends Seeder
             'phone'               => '0987295505',
             'role'                => 'Administrador',
             'state'               => 'Activo'
+        ]);
+
+        \App\Models\Address::factory()->create([
+            'city'              => 'Quito',
+            'parish'                => 'Coto',
+            'sector'                => 'San calos',
+            'neighborhood'              => 'Ruperto alarcon',
+            'main_street'               => 'n/s',
+            'back_street'               => 'n/s',
+            'house_number'              => 'n/s',
+            'reference'                 => 'n/s'
         ]);
     }
 }

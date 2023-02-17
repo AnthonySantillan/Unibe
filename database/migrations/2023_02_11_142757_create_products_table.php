@@ -19,10 +19,10 @@ return new class extends Migration
             $table->foreign('cellar_id')->references('_id')->on('cellars');
             $table->text('code');
             $table->text('name');
-            $table->text('description');
-            $table->decimal('price');
-            $table->integer('total');
-            $table->text('state');
+            $table->text('description')->nullable();
+            $table->decimal('price')->nullable();
+            $table->integer('total')->nullable();
+            $table->text('state')->nullable();
             $table->timestamps();
         });
     }
