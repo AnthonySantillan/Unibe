@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('_id')->primary();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('_id')->on('users');
-            $table->uuid('addres_id');
+            $table->uuid('addres_id')->nullable();
             $table->foreign('addres_id')->references('_id')->on('address');
             $table->text('identification_card');
             $table->text('name');

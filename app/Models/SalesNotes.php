@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Uuids;
+
 
 class SalesNotes extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $table = 'sales_notes';
     protected $primaryKey = '_id';

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Uuids;
+
 
 class SalesNotesProducts extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $table = 'sales_notes_products';
     protected $primaryKey = '_id';
@@ -22,14 +24,7 @@ class SalesNotesProducts extends Model
         'discount',
     ];
 
-//uno a uno
-    /*
-    public function trademark(){
-        return $this->hasOne(Trademark::class);
-    }
-*/
-
-//uno a varios
+    //uno a varios
     public function salesNotes(){
         return $this->hasMany(SalesNotes::class);
     }
