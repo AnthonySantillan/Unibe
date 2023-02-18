@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Customers\CustomerCollection;
 use Illuminate\Http\Request;
 use App\Models\Customers;
 
@@ -14,8 +15,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers = Customers::get();
-        return response()->json($customers, 200);
+        return new CustomerCollection(Customers::all());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Users\UserCollection;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
@@ -16,8 +17,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return response()->json($users,200);
+        return new UserCollection(User::all());
     }
 
     public function auth(Request $request)

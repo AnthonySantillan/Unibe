@@ -18,11 +18,7 @@ class Cellars extends Model
         'code',
         'dimension ',
         'name',
-        'state'
+        'state',
+        'addres',
     ];
-
-    //uno a varios
-    public function address(){
-        return $this->hasOne(Address::class);
-    }
 }

@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('cellars', function (Blueprint $table) {
             $table->uuid('_id')->primary();
-            $table->uuid('addres_id')->nullable();
-            $table->foreign('addres_id')->references('_id')->on('address');
+            $table->text('addres');
             $table->text('code');
             $table->text('dimension')->nullable();
             $table->text('name');

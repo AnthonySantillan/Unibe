@@ -36,12 +36,13 @@ class SalesNotesProductsController extends Controller
     public function store(Request $request)
     {
         $salesNotesProducts = new SalesNotesProducts();
-        $salesNotesProducts->user_id = $request->user_id;
-        $salesNotesProducts->sales_notes_product_id = $request->sales_notes_product_id;
+        $salesNotesProducts->product_id = $request->product_id;
         $salesNotesProducts->amount = $request->amount;
+        $salesNotesProducts->description = $request->description;
+        $salesNotesProducts->importe = $request->importe;
+        $salesNotesProducts->discount = $request->discount;
         $salesNotesProducts->unit_value = $request->unit_value;
         $salesNotesProducts->iva = $request->iva;
-        $salesNotesProducts->total = $request->total;
         $salesNotesProducts->save();
 
         return response()->json(
@@ -89,12 +90,13 @@ class SalesNotesProductsController extends Controller
     public function update(Request $request, $id)
     {
         $salesNotesProducts = SalesNotesProducts::find($id);
-        $salesNotesProducts->user_id = $request->user_id;
-        $salesNotesProducts->sales_notes_product_id = $request->sales_notes_product_id;
+        $salesNotesProducts->product_id = $request->product_id;
         $salesNotesProducts->amount = $request->amount;
+        $salesNotesProducts->description = $request->description;
+        $salesNotesProducts->importe = $request->importe;
+        $salesNotesProducts->discount = $request->discount;
         $salesNotesProducts->unit_value = $request->unit_value;
         $salesNotesProducts->iva = $request->iva;
-        $salesNotesProducts->total = $request->total;
         $salesNotesProducts->save();
 
         return response()->json(

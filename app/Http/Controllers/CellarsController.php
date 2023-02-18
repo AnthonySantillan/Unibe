@@ -29,15 +29,9 @@ class CellarsController extends Controller
         $cellars = new Cellars();
         $cellars->code = $request->code;
         $cellars->name = $request->name;
-        if ($request->dimension) {
-            $cellars->dimension = $request->dimension;
-        }
-        if ($request->state) {
-            $cellars->state = $request->state;
-        }
-        if ($request->addres_id) {
-            $cellars->addres_id = $request->addres_id;
-        } 
+        $cellars->dimension = $request->dimension;
+        $cellars->state = $request->state;
+        $cellars->addres = $request->addres;
         $cellars->save();
 
         return response()->json(
@@ -77,15 +71,9 @@ class CellarsController extends Controller
         $cellars = Cellars::find($id);
         $cellars->code = $request->code;
         $cellars->name = $request->name;
-        if ($request->dimension) {
-            $cellars->dimension = $request->dimension;
-        }
-        if ($request->state) {
-            $cellars->state = $request->state;
-        }
-        if ($request->addres_id) {
-            $cellars->addres_id = $request->addres_id;
-        } 
+        $cellars->dimension = $request->dimension;
+        $cellars->state = $request->state;
+        $cellars->addres = $request->addres;
         $cellars->save();
 
         return response()->json(

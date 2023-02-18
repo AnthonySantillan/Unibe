@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SalesNotes\SalesNotesCollection;
 use Illuminate\Http\Request;
 use App\Models\SalesNotes;
 class SalesNotesController extends Controller
@@ -13,8 +14,7 @@ class SalesNotesController extends Controller
      */
     public function index()
     {
-        $salesNotes = SalesNotes::get();
-        return response()->json($salesNotes,200);
+        return new SalesNotesCollection(SalesNotes::all());
     }
 
     /**
@@ -26,13 +26,15 @@ class SalesNotesController extends Controller
     public function store(Request $request)
     {
         $salesNotes = new SalesNotes();
-        $salesNotes->client_id = $request->client_id;
-        $salesNotes->date = $request->date;
-        $salesNotes->discount = $request->discount;
-        $salesNotes->forma_pago = $request->forma_pago;
+        $salesNotes->user_id = $request->user_id;
+        $salesNotes->sales_notes_product_id = $request->sales_notes_product_id;
         $salesNotes->invoice_number = $request->invoice_number;
-        $salesNotes->observation = $request->observation;
         $salesNotes->subtotal = $request->subtotal;
+        $salesNotes->client_id = $request->client_id;
+        $salesNotes->discount = $request->discount;
+        $salesNotes->date = $request->date;
+        $salesNotes->observation = $request->observation;
+        $salesNotes->forma_pago = $request->forma_pago;
         $salesNotes->iva = $request->iva;
         $salesNotes->total = $request->total;
         $salesNotes->state = $request->state;
@@ -73,10 +75,15 @@ class SalesNotesController extends Controller
     public function update(Request $request, $id)
     {
         $salesNotes = SalesNotes::find($id);
-        $salesNotes->product_id = $request->product_id;
-        $salesNotes->code = $request->code;
+        $salesNotes->user_id = $request->user_id;
+        $salesNotes->sales_notes_product_id = $request->sales_notes_product_id;
         $salesNotes->invoice_number = $request->invoice_number;
         $salesNotes->subtotal = $request->subtotal;
+        $salesNotes->client_id = $request->client_id;
+        $salesNotes->discount = $request->discount;
+        $salesNotes->date = $request->date;
+        $salesNotes->observation = $request->observation;
+        $salesNotes->forma_pago = $request->forma_pago;
         $salesNotes->iva = $request->iva;
         $salesNotes->total = $request->total;
         $salesNotes->state = $request->state;

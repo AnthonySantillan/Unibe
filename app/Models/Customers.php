@@ -26,9 +26,6 @@ class Customers extends Model
 
     //uno a varios
     public function user(){
-        return $this->hasOne(User::class);
-    }
-    public function address(){
-        return $this->hasOne(Address::class);
+        return $this->hasMany(User::class);
     }
 }
