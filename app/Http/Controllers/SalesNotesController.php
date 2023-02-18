@@ -34,7 +34,7 @@ class SalesNotesController extends Controller
         $salesNotes->observation = $request->observation;
         $salesNotes->subtotal = $request->subtotal;
         $salesNotes->iva = $request->iva;
-        $salesNotes->subtotal = $request->subtotal;
+        $salesNotes->total = $request->total;
         $salesNotes->state = $request->state;
         $salesNotes->save();
 
