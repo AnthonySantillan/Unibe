@@ -38,16 +38,7 @@ export default function FormClient() {
   const cssColumnas = 'grid grid-cols-1 md:grid-cols-3 gap-x-6'
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onSubmit}
-      autoComplete="off"
-      initialValues={{
-        username: 'example06',
-        password: '123',
-      }}
-    >
+    <Form form={form} layout="vertical" onFinish={onSubmit} autoComplete="off">
       <Card>
         <div className={cssColumnas}>
           <Form.Item

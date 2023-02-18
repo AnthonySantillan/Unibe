@@ -30,7 +30,7 @@ import {
 const { TextArea } = Input
 
 const addConcepto = () => ({
-  product: '',
+  product_id: '',
   description: '',
   amount: 1,
   unit_value: 0,
@@ -88,9 +88,9 @@ export const Conceptos: FC<{
       const dataAnterior = form.getFieldValue(name)
       if (val) {
         Object.assign(dataAnterior, {
-          product: val._id,
+          product_id: val._id,
           code: val?.code,
-          description: val.description,
+          description: val.name,
           unit_value: val.price || 0,
         })
       }
@@ -110,7 +110,7 @@ export const Conceptos: FC<{
           key="product_id"
           title="Producto"
           render={({ name }) => (
-            <Form.Item name={[name, 'product']} rules={[$rules.required()]}>
+            <Form.Item name={[name, 'product_id']} rules={[$rules.required()]}>
               <Select
                 showSearch
                 placeholder="Seleccione un producto"
@@ -200,6 +200,9 @@ export const Conceptos: FC<{
           render={({ name }) => (
             <Popconfirm
               title="¿Eliminar detalle?"
+              okButtonProps={{
+                type: 'default',
+              }}
               onConfirm={() => operation.remove(name)}
             >
               <DeleteOutlined title="Eliminar detalle" />
@@ -322,7 +325,7 @@ const SalesNotes: FC = () => {
   const subTotals = getSubTotals()
 
   const onSubmit = async (data: any) => {
-    data.date = data.date.toISOString()
+    data.date = dayjs(data.date).format('YYYY-MM-DD')
     for (const totals of subTotals) {
       if (totals.label === 'Subtotal') {
         data.subtotal = totals.total

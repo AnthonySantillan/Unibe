@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useEffect } from 'react'
 import $rules from '@/assets/rules'
 import { useRouter } from 'next/router'
 import { Cellar } from '@/types/Cellars'
@@ -17,6 +18,14 @@ import {
 export default function FormClient() {
   const router = useRouter()
   const [form] = Form.useForm()
+
+  useEffect(() => {
+    if (router.query.id) {
+      axios.get(`/api/cellars/${router.query.id}`).then(({ data }) => {
+        form.setFieldsValue(data)
+      })
+    }
+  }, [router.query.id, form])
 
   const onSubmit = (data: Cellar) => {
     try {
