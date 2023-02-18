@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'email'               => 'fairy.jum568@gmail.com',
             'phone'               => '0987295505',
             'role'                => 'Administrador',
-            'state'               => 'Activo'
+            'state'               => 'activo'
         ]);
 
         \App\Models\Address::factory()->create([

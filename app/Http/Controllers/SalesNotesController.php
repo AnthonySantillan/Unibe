@@ -26,12 +26,15 @@ class SalesNotesController extends Controller
     public function store(Request $request)
     {
         $salesNotes = new SalesNotes();
-        $salesNotes->product_id = $request->product_id;
-        $salesNotes->code = $request->code;
+        $salesNotes->client_id = $request->client_id;
+        $salesNotes->date = $request->date;
+        $salesNotes->discount = $request->discount;
+        $salesNotes->forma_pago = $request->forma_pago;
         $salesNotes->invoice_number = $request->invoice_number;
+        $salesNotes->observation = $request->observation;
         $salesNotes->subtotal = $request->subtotal;
         $salesNotes->iva = $request->iva;
-        $salesNotes->total = $request->total;
+        $salesNotes->subtotal = $request->subtotal;
         $salesNotes->state = $request->state;
         $salesNotes->save();
 
