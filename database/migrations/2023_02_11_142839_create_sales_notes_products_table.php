@@ -17,6 +17,8 @@ return new class extends Migration
             $table->uuid('_id')->primary();
             $table->uuid('product_id');
             $table->foreign('product_id')->references('_id')->on('products');
+            $table->uuid('sales_notes_id')->nullable();
+            $table->foreign('sales_notes_id')->references('_id')->on('sales_notes');
             $table->decimal('amount');
             $table->text('description');
             $table->decimal('importe');

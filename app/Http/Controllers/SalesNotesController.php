@@ -27,7 +27,6 @@ class SalesNotesController extends Controller
     {
         $salesNotes = new SalesNotes();
         $salesNotes->user_id = $request->user_id;
-        $salesNotes->sales_notes_product_id = $request->sales_notes_product_id;
         $salesNotes->invoice_number = $request->invoice_number;
         $salesNotes->subtotal = $request->subtotal;
         $salesNotes->client_id = $request->client_id;
@@ -39,6 +38,21 @@ class SalesNotesController extends Controller
         $salesNotes->total = $request->total;
         $salesNotes->state = $request->state;
         $salesNotes->save();
+
+        foreach($salesNotes['details'] as $salesNotesProducts)
+        {
+            $salesNotesProducts = new SalesNotesProducts();
+            $salesNotesProducts->product_id = $request->product_id;
+            $salesNotesProducts->sales_notes_id = $salesNotes->_id;
+            $salesNotesProducts->amount = $request->amount;
+            $salesNotesProducts->description = $request->description;
+            $salesNotesProducts->importe = $request->importe;
+            $salesNotesProducts->discount = $request->discount;
+            $salesNotesProducts->unit_value = $request->unit_value;
+            $salesNotesProducts->iva = $request->iva;
+            $salesNotesProducts->save();
+        }
+
 
         return response()->json(
             [

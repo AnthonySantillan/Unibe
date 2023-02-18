@@ -17,8 +17,6 @@ return new class extends Migration
             $table->uuid('_id')->primary();
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('_id')->on('users');
-            $table->uuid('sales_notes_product_id')->nullable();
-            $table->foreign('sales_notes_product_id')->references('_id')->on('sales_notes_products');
             $table->text('invoice_number');
             $table->decimal('subtotal');
             $table->uuid('client_id')->nullable();
