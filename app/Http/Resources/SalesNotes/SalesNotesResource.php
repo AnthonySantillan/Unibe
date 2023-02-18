@@ -21,7 +21,7 @@ class SalesNotesResource extends JsonResource
         $customers = Customers::all();
         $products = SalesNotesProducts::all();
         return [
-            'id' => $this->_id,
+            '_id' => $this->_id,
             'user_id' => $users->find($this->user_id),
             'sales_notes_product_id' => $products->find($this->sales_notes_product_id),
             'invoice_number' => $this->invoice_number,

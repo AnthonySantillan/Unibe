@@ -20,9 +20,8 @@ class CustomerResource extends JsonResource
         $users = User::all();
         return [
             '_id' => $this->_id,
-            'name' => $this->username,
+            'name' => $this->name,
             'user' => $users->find($this->user_id),
-            'addres_id' => $this->addres_id,
             'identification_card' => $this->identification_card,
             'last_name' => $this->last_name,
             'email' => $this->email,

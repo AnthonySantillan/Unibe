@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Customers\CustomerCollection;
+use App\Http\Resources\Customers\CustomerResource;
 use Illuminate\Http\Request;
 use App\Models\Customers;
 
@@ -59,7 +60,14 @@ class CustomersController extends Controller
     public function show($id)
     {
         $customers = Customers::find($id);
-        return response()->json($customers, 200);
+        return (new CustomerResource($customers))
+        ->additional([
+            'msg' => [
+                'summary' => 'consulta exitosa',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ]);
     }
 
     /**
