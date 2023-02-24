@@ -62,7 +62,10 @@ export interface UserInfo {
   id: string
   sessionEndDate: string
   sessionStartDate: string
-  userType: 'admin' | 'user'
+  state: string
+  email: string
+  password: string
+  type: 'administrador' | 'usuario'
   esAdmin: boolean
 }
 
@@ -97,7 +100,7 @@ const ContextoUsuario: FunctionComponent<{ children: ReactNode }> = ({
 }) => {
   const router = useRouter()
   const [isReady, setIsReady] = useState(false)
-  const [user, setUser] = useState<UserInfo | undefined>()
+  const [user, setUser] = useState<UserInfo>()
   // const usuarioEsAdmin = useMemo(
   //   () => business?.userType === 'admin',
   //   [business?.userType]

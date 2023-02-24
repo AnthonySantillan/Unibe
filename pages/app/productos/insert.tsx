@@ -43,7 +43,7 @@ export default function FormClient() {
   const init = async () => {
     axios.get('/api/cellars').then(({ data }) => {
       const warehouseOptions = data.map((item: Cellar) => ({
-        label: item.name,
+        label: `${item.code} - ${item.name}`,
         value: item._id,
       }))
       setWarehouseOptions(warehouseOptions)

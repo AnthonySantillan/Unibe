@@ -270,7 +270,7 @@ const SalesNotes: FC = () => {
 
   useEffect(() => {
     axios.get('/api/clients/').then(({ data }) => {
-      const clients = data.map((item: Clients) => ({
+      const clients = data.data.map((item: Clients) => ({
         ...item,
         value: item._id,
         label: item.name,

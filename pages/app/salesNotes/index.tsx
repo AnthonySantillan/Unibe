@@ -14,7 +14,7 @@ const SalesNotes: React.FC = () => {
   const init = async () => {
     axios.get('/api/salesNotes').then(({ data }) => {
       console.log(data)
-      const products = data.map((item: Product, index: number) => ({
+      const products = data.data.map((item: Product, index: number) => ({
         ...item,
         key: index,
       }))

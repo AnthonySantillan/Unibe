@@ -13,7 +13,7 @@ const Clients: React.FC = () => {
 
   const init = async () => {
     axios.get('/api/clients').then(({ data }) => {
-      const users = data.map((item: User, index: number) => ({
+      const users = data.data.map((item: User, index: number) => ({
         ...item,
         key: index,
       }))

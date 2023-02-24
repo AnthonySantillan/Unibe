@@ -85,7 +85,7 @@ export default function FormClient() {
           </Form.Item>
         </div>
       </Card>
-      <Card className="mt-4">
+      {/* <Card className="mt-4">
         <Typography.Title level={4}>Dirección</Typography.Title>
         <div className={cssColumnas}>
           <Form.Item
@@ -117,7 +117,7 @@ export default function FormClient() {
             <Input placeholder="Ingrese una referencia" />
           </Form.Item>
         </div>
-      </Card>
+      </Card> */}
 
       <Space className="mt-4 flex justify-end mr-4">
         <Button type="primary" className=" bg-blue-400" htmlType="submit">

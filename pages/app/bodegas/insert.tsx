@@ -57,16 +57,28 @@ export default function FormClient() {
             <Input placeholder="Ingrese el nombre" />
           </Form.Item>
 
-          <Form.Item name="dimension" label="Dimensión (m3)">
+          <Form.Item
+            name="dimension"
+            label="Dimensión (m3)"
+            rules={[$rules.required()]}
+          >
             <InputNumber
               className="w-full"
               placeholder="Ingrese el tamaño de la bodega en metros"
               min={1}
             />
           </Form.Item>
+
+          <Form.Item
+            name="addres"
+            label="Dirección"
+            rules={[$rules.required()]}
+          >
+            <Input placeholder="Ingrese una dirección" />
+          </Form.Item>
         </div>
       </Card>
-      <Card className="mt-4">
+      {/* <Card className="mt-4">
         <Typography.Title level={4}>Dirección</Typography.Title>
         <div className={cssColumnas}>
           <Form.Item
@@ -98,7 +110,7 @@ export default function FormClient() {
             <Input placeholder="Ingrese una referencia" />
           </Form.Item>
         </div>
-      </Card>
+      </Card> */}
       <Space className="mt-4 flex justify-end mr-4">
         <Button type="primary" className=" bg-blue-400" htmlType="submit">
           Guardar

@@ -12,6 +12,7 @@ interface LoginRespuesta {
 }
 
 const LoginEmpresa: FC = () => {
+  const [form] = Form.useForm()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -25,7 +26,10 @@ const LoginEmpresa: FC = () => {
       console.log(data)
       if (data.token) {
         crearToken(data.token)
-        router.push((router.query.redirect as string) || '/app')
+        router.push({
+          pathname: '/app',
+          query: { id: form.getFieldValue('username') },
+        })
       }
     } catch (err) {
       showError(err)
@@ -43,7 +47,7 @@ const LoginEmpresa: FC = () => {
           <div className="mb-5 flex items-center justify-between">
             <div className="text-2xl font-bold">Inicio de sesión</div>
           </div>
-          <Form className="" layout="vertical" onFinish={onSubmit}>
+          <Form form={form} className="" layout="vertical" onFinish={onSubmit}>
             <Form.Item
               label="Usuario"
               rules={[$rules.required()]}

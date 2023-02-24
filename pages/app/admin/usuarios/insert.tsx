@@ -4,7 +4,7 @@ import $rules from '@/assets/rules'
 import { User } from '@/types/User'
 import { useRouter } from 'next/router'
 import { showError } from '@/assets/utils'
-import { Button, Card, Form, Input, message, Space } from 'antd'
+import { Button, Card, Form, Input, message, Select, Space } from 'antd'
 
 export default function FormClient() {
   const router = useRouter()
@@ -38,7 +38,13 @@ export default function FormClient() {
   const cssColumnas = 'grid grid-cols-1 md:grid-cols-3 gap-x-6'
 
   return (
-    <Form form={form} layout="vertical" onFinish={onSubmit} autoComplete="off">
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onSubmit}
+      autoComplete="off"
+      initialValues={{ state: 'activo' }}
+    >
       <Card>
         <div className={cssColumnas}>
           <Form.Item
@@ -55,8 +61,20 @@ export default function FormClient() {
           >
             <Input.Password placeholder="Ingrese una contraseña" />
           </Form.Item>
+          <Form.Item name="type" label="Tipo" rules={[$rules.required()]}>
+            <Select placeholder="Seleccione una de las opciones">
+              <Select.Option value="administrador">Administrador</Select.Option>
+              <Select.Option value="usuario">Usuario</Select.Option>
+            </Select>
+          </Form.Item>
           <Form.Item name="email" label="Email">
             <Input placeholder="Ingrese el correo" />
+          </Form.Item>
+          <Form.Item name="state" label="Estado" rules={[$rules.required()]}>
+            <Select placeholder="Seleccione una de las opciones">
+              <Select.Option value="activo">Activo</Select.Option>
+              <Select.Option value="inactivo">Inactivo</Select.Option>
+            </Select>
           </Form.Item>
         </div>
       </Card>

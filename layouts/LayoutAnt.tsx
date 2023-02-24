@@ -13,7 +13,7 @@ import { destruirToken } from '@/assets/utils'
 import React, { FC, ReactNode, useState } from 'react'
 import { Button, MenuProps, Modal, Space } from 'antd'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
-// import ContextoUsuario, { useContextoUsuario } from '@/contexts/User'
+import ContextoUsuario, { useContextoUsuario } from '@/contexts/User'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -33,27 +33,35 @@ function getItem(
   } as MenuItem
 }
 
-const items: MenuItem[] = [
-  getItem(<Link href="/app">home</Link>, '1', <HomeOutlined />),
-  getItem('Admin', 'sub1', <WindowsOutlined />, [
-    getItem(<Link href="/app/admin/usuarios">Usuarios</Link>, '6'),
-  ]),
-  getItem('Inventario', 'sub2', <DesktopOutlined />, [
-    getItem(<Link href="/app/productos">Productos</Link>, '3'),
-    getItem(<Link href="/app/bodegas">Bodegas</Link>, '4'),
-  ]),
-  getItem('Comprobantes', 'sub3', <ProfileOutlined />, [
-    getItem(
-      <Link href="/app/salesNotes">Notas de ventas</Link>,
-      '9',
-      <FileOutlined />
-    ),
-  ]),
-  getItem(<Link href="/app/clientes">Clientes</Link>, '2', <UserOutlined />),
-]
+function getItems(typeUser: string) {
+  const items: MenuItem[] = [
+    getItem(<Link href="/app">home</Link>, '1', <HomeOutlined />),
+    ...(typeUser === 'administrador'
+      ? [
+          getItem('Admin', 'sub1', <WindowsOutlined />, [
+            getItem(<Link href="/app/admin/usuarios">Usuarios</Link>, '6'),
+          ]),
+        ]
+      : []),
+    getItem('Inventario', 'sub2', <DesktopOutlined />, [
+      getItem(<Link href="/app/productos">Productos</Link>, '3'),
+      getItem(<Link href="/app/bodegas">Bodegas</Link>, '4'),
+    ]),
+    getItem('Comprobantes', 'sub3', <ProfileOutlined />, [
+      getItem(
+        <Link href="/app/salesNotes">Notas de ventas</Link>,
+        '9',
+        <FileOutlined />
+      ),
+    ]),
+    getItem(<Link href="/app/clientes">Clientes</Link>, '2', <UserOutlined />),
+  ]
+  return items
+}
 
 const LayoutApp: FC<{ children: ReactNode }> = (props) => {
-  // const { user } = useContextoUsuario()
+  // const [user, setUser] = useState<User>({} as User)
+  const { user } = useContextoUsuario()
   const router = useRouter()
   const routes = router.route.split('/')
   const filterRoutes = routes.filter(
@@ -63,6 +71,7 @@ const LayoutApp: FC<{ children: ReactNode }> = (props) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -78,10 +87,13 @@ const LayoutApp: FC<{ children: ReactNode }> = (props) => {
             background: 'rgba(255, 255, 255, 0.2)',
           }}
         >
-          {/* {user?.name} */}
-          ''
+          {user?.username}
         </div>
-        <Menu theme="dark" mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          items={getItems(user?.type || 'administrador')}
+        />
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -125,9 +137,9 @@ const LayoutApp: FC<{ children: ReactNode }> = (props) => {
 
 const LayoutAppContex: FC<{ children: ReactNode }> = (props) => {
   return (
-    //   <ContextoUsuario>
-    //   </ContextoUsuario>
-    <LayoutApp>{props.children}</LayoutApp>
+    <ContextoUsuario>
+      <LayoutApp>{props.children}</LayoutApp>
+    </ContextoUsuario>
   )
 }
 

@@ -13,7 +13,7 @@ const Clients: React.FC = () => {
 
   const init = async () => {
     axios.get('/api/users').then(({ data }) => {
-      const users = data.map((item: User, index: number) => ({
+      const users = data.data.map((item: User, index: number) => ({
         ...item,
         key: index,
       }))
@@ -55,7 +55,8 @@ const Clients: React.FC = () => {
           key="password"
           render={(row) => row.replace(/./gi, '*')}
         />
-        <Column title="Email" dataIndex="email" key="email" />
+        <Column title="Tipo" dataIndex="type" key="type" />
+        <Column title="Estado" dataIndex="state" key="state" />
         <Column
           key="action"
           render={(_: User, record: User) => (
