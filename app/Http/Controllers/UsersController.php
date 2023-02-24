@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Users\UserCollection;
 use Illuminate\Http\Request;
+use Cookie;
 use App\Models\User;
 use Validator;
 
@@ -29,6 +30,8 @@ class UsersController extends Controller
         if ($user) {
             if ($data->password === $user->password) {
                 $token = $user->createToken('TokenUser');
+                $user->api_token = $token->plainTextToken;
+                $user->save();
                 $response["name"] = $user->username;
                 $response["token"] = $token->plainTextToken;
             } else{
@@ -42,6 +45,14 @@ class UsersController extends Controller
         return response()->json($response)->setStatusCode($status);
     }
 
+    public function getauth(Request $request)
+    {
+        $api_token = Cookie::get('TokenUser');
+        $status = 200;
+        $user = User::where('api_token', $api_token)->first();
+        return response()->json($user)->setStatusCode($status);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -53,12 +64,11 @@ class UsersController extends Controller
         $user = new User();
         $user->username = $request->username;
         $user->password = $request->password;
+        $user->type = $request->type;
         if ($request->email) {
             $user->email = $request->email;
         }
-        if ($request->state) {
-            $user->state = $request->state;
-        }
+        $user->state = $request->state;
         $user->save();
 
         return response()->json(
@@ -83,6 +93,9 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
+        if (!$user) {
+            $user = User::where('username', $id)->first();
+        }
         return response()->json($user,200);
     }
 
@@ -98,12 +111,11 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->username = $request->username;
         $user->password = $request->password;
+        $user->type = $request->type;
         if ($request->email) {
             $user->email = $request->email;
         }
-        if ($request->state) {
-            $user->state = $request->state;
-        }
+        $user->state = $request->state;
         $user->save();
 
         return response()->json(

@@ -17,7 +17,10 @@ return new class extends Migration
             $table->uuid('_id')->primary();
             $table->string('username')->unique();
             $table->text('email')->nullable();
+            $table->text('api_token')->nullable();
             $table->string('password');
+            $table->string('type');
+            $table->string('state');
             $table->timestamps();
         });
     }

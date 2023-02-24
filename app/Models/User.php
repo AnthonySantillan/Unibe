@@ -19,7 +19,9 @@ class User extends Authenticatable
         'username',
         'password',
         'email',
-        'state'
+        'state',
+        'type',
+        'api_token'
     ];
 
     //uno a varios
