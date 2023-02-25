@@ -21,12 +21,14 @@ class SalesNotesResource extends JsonResource
     {
         $users = User::all();
         $customers = Customers::all();
+        $salesNotesProducts = SalesNotesProducts::all();
         return [
             '_id' => $this->_id,
             'user_id' => $users->find($this->user_id),
             'invoice_number' => $this->invoice_number,
             'subtotal' => $this->subtotal,
-            'client_id' => $customers->find($this->client_id),
+            'cliente' => $customers->find($this->client_id),
+            'detalles' => $salesNotesProducts->where('sales_notes_id', $this->_id),
             'discount' => $this->discount,
             'date' => $this->date,
             'observation' => $this->observation,

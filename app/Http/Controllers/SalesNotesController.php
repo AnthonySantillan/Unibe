@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SalesNotes\SalesNotesCollection;
+use App\Http\Resources\SalesNotes\SalesNotesResource;
 use App\Models\SalesNotesProducts;
 use Illuminate\Http\Request;
 use App\Models\SalesNotes;
@@ -54,7 +55,7 @@ class SalesNotesController extends Controller
                 $salesNotesProduct->importe = $product['importe'];
                 $salesNotesProduct->discount = $product['discount'];
                 $salesNotesProduct->unit_value = $product['unit_value'];
-                $salesNotesProduct->iva = $product['iva'];
+                // $salesNotesProduct->iva = $product['iva'];
                 $salesNotesProduct->save();
             }
         }
@@ -67,7 +68,6 @@ class SalesNotesController extends Controller
                     'detail' => 'Dato creado con exito',
                     'code' => '201'
                 ]
-
             ],201
         );
     }
@@ -81,7 +81,7 @@ class SalesNotesController extends Controller
     public function show($id)
     {
         $salesNotes = SalesNotes::find($id);
-        return response()->json($salesNotes, 200);
+        return (new SalesNotesResource($salesNotes));
     }
     public function showDetail($idDetail)
     {
@@ -104,7 +104,6 @@ class SalesNotesController extends Controller
     {
         $salesNotes = SalesNotes::find($id);
         $salesNotes->user_id = $request->user_id;
-        $salesNotes->sales_notes_product_id = $request->sales_notes_product_id;
         $salesNotes->invoice_number = $request->invoice_number;
         $salesNotes->subtotal = $request->subtotal;
         $salesNotes->client_id = $request->client_id;
@@ -117,6 +116,22 @@ class SalesNotesController extends Controller
         $salesNotes->state = $request->state;
         $salesNotes->save();
 
+        if(is_array($request->details))
+        {
+            foreach($request->details as $product)
+            {
+                $salesNotesProduct = SalesNotesProducts::find($product['_id']);
+                $salesNotesProduct->product_id = $product['product_id'];
+                $salesNotesProduct->sales_notes_id = $salesNotes->_id;
+                $salesNotesProduct->amount = $product['amount'];
+                $salesNotesProduct->description = $product['description'];
+                $salesNotesProduct->importe = $product['importe'];
+                $salesNotesProduct->discount = $product['discount'];
+                $salesNotesProduct->unit_value = $product['unit_value'];
+                // $salesNotesProduct->iva = $product['iva'];
+                $salesNotesProduct->save();
+            }
+        }
         return response()->json(
             [
                 'data' => $salesNotes,
@@ -139,6 +154,7 @@ class SalesNotesController extends Controller
     public function destroy($id)
     {
         $salesNotes = SalesNotes::find($id);
+        $salesNotes->salesNotesProducts()->delete();
         $salesNotes->delete();
         return response()->json(
             [
