@@ -13,7 +13,6 @@ const SalesNotes: React.FC = () => {
 
   const init = async () => {
     axios.get('/api/salesNotes').then(({ data }) => {
-      console.log(data)
       const products = data.data.map((item: Product, index: number) => ({
         ...item,
         key: index,
@@ -53,8 +52,18 @@ const SalesNotes: React.FC = () => {
           dataIndex="invoice_number"
           key="invoice_number"
         />
-        <Column title="Razon social" dataIndex="client" key="client" />
-        <Column title="Código" dataIndex="code" key="code" />
+        <Column
+          title="Razon social"
+          dataIndex="client"
+          key="client"
+          render={(_: Product, record: any) => record.cliente.name}
+        />
+        <Column
+          title="Forma de pago"
+          dataIndex="code"
+          key="code"
+          render={(_: Product, record: any) => record.forma_pago}
+        />
         <Column title="Total" dataIndex="total" key="total" />
         <Column
           key="action"

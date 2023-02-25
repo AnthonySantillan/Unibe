@@ -247,23 +247,35 @@ const SalesNotes: FC = () => {
   type TabsKeys = 'detalles'
   const [tabActiva, setTabActiva] = useState<TabsKeys>('detalles')
   const detalles = Form.useWatch('details', form) || []
+  const subtotalF = Form.useWatch('subtotal', form)
+  const total = Form.useWatch('total', form)
+  const iva = Form.useWatch('iva', form)
 
   useEffect(() => {
     if (router.query.id) {
       axios.get(`/api/salesNotes/${router.query.id}`).then(({ data }) => {
-        if (data.date) {
-          data.date = dayjs(data.date)
+        console.log(data.data)
+        if (data.data.date) {
+          data.data.date = dayjs(data.data.date)
         }
-        if (data.client) {
-          const cliente = optionsClients.filter(
-            (x: Clients) => x._id === data.client
-          )
-          if (cliente && cliente.length > 0) {
-            form.setFieldValue('last_name', cliente[0].last_name)
-            form.setFieldValue('email', cliente[0].email)
+        if (data.data.cliente) {
+          form.setFieldValue('client_id', data.data.cliente._id)
+          form.setFieldValue('last_name', data.data.cliente.last_name)
+          form.setFieldValue('email', data.data.cliente.email)
+        }
+        if (data.data.detalles) {
+          const values: any = Object.values(data.data.detalles)
+          for (const detail of values) {
+            detail.amount = parseFloat(detail.amount)
+            detail.discount = parseFloat(detail.discount)
+            detail.importe = parseFloat(detail.importe)
+            detail.unit_value = parseFloat(detail.unit_value)
           }
+          form.setFieldValue('details', values)
         }
-        form.setFieldsValue(data)
+
+        form.setFieldsValue(data.data)
+        console.log(form.getFieldsValue())
       })
     }
   }, [router.query.id, optionsClients])
