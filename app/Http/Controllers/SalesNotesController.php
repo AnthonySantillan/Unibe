@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SalesNotes\SalesNotesCollection;
+use App\Models\SalesNotesProducts;
 use Illuminate\Http\Request;
 use App\Models\SalesNotes;
+use Illuminate\Support\Facades\DB;
+
 class SalesNotesController extends Controller
 {
     /**
@@ -39,20 +42,22 @@ class SalesNotesController extends Controller
         $salesNotes->state = $request->state;
         $salesNotes->save();
 
-        foreach($salesNotes['details'] as $salesNotesProducts)
+        if(is_array($request->details))
         {
-            $salesNotesProducts = new SalesNotesProducts();
-            $salesNotesProducts->product_id = $request->product_id;
-            $salesNotesProducts->sales_notes_id = $salesNotes->_id;
-            $salesNotesProducts->amount = $request->amount;
-            $salesNotesProducts->description = $request->description;
-            $salesNotesProducts->importe = $request->importe;
-            $salesNotesProducts->discount = $request->discount;
-            $salesNotesProducts->unit_value = $request->unit_value;
-            $salesNotesProducts->iva = $request->iva;
-            $salesNotesProducts->save();
+            foreach($request->details as $product)
+            {
+                $salesNotesProduct = new SalesNotesProducts();
+                $salesNotesProduct->product_id = $product['product_id'];
+                $salesNotesProduct->sales_notes_id = $salesNotes->_id;
+                $salesNotesProduct->amount = $product['amount'];
+                $salesNotesProduct->description = $product['description'];
+                $salesNotesProduct->importe = $product['importe'];
+                $salesNotesProduct->discount = $product['discount'];
+                $salesNotesProduct->unit_value = $product['unit_value'];
+                $salesNotesProduct->iva = $product['iva'];
+                $salesNotesProduct->save();
+            }
         }
-
 
         return response()->json(
             [
@@ -77,6 +82,15 @@ class SalesNotesController extends Controller
     {
         $salesNotes = SalesNotes::find($id);
         return response()->json($salesNotes, 200);
+    }
+    public function showDetail($idDetail)
+    {
+        $detail = DB::table('sales_notes')
+            ->join('sales_notes_products', 'sales_notes._id', '=', 'sales_notes_products.sales_notes_id')
+            ->select('sales_notes_products.*')
+            ->where('sales_notes_products.sales_notes_id','=' , $idDetail)
+            ->get();
+        return response()->json($detail, 200);
     }
 
     /**

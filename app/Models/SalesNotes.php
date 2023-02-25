@@ -27,7 +27,7 @@ class SalesNotes extends Model
 
 //uno a uno
     public function salesNotesProducts(){
-        return $this->hasMany(SalesNotesProducts::class);
+        return $this->belongsTo(SalesNotesProducts::class);
     }
 
 //uno a varios

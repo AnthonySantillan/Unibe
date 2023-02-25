@@ -29,10 +29,13 @@ Route::post('auth/user', [UsersController::class, 'auth']);
 Route::get('auth/user', [UsersController::class, 'getauth']);
 Route::apiResource('users',UsersController::class);
 Route::apiResource('clients',CustomersController::class);
-Route::apiResource('address',AddressController::class);
 Route::apiResource('cellars',CellarsController::class);
 Route::apiResource('products',ProductsController::class);
 Route::apiResource('salesNotes',SalesNotesController::class);
 Route::apiResource('salesNotesProducts',SalesNotesProductsController::class);
+Route::prefix('salesNotes')->group(function () {
+    Route::get('salesNotesDetail/{idDetail}', [SalesNotesController::class, 'showDetail']);
+});
+
 
 
